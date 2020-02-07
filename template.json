@@ -219,11 +219,11 @@
         "description": "Create a folder",
         "summary": "Create a folder",
         "operationId": "CreateFolder",
-		"parameters": [
+		    "parameters": [
           {
             "name": "folders",
             "in": "query",
-			"required": true,
+            "type": "string",
             "x-ntx-dynamic-values": {
               "operationId": "GetFolderContents",
               "value-path": "id",
