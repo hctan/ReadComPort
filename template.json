@@ -248,7 +248,7 @@
                     "value-path": "id",
                     "parameters": {
                       "folderId": {
-                        "parameter": "destinationFolderId"
+                        "parameter": "data.destinationFolderId"
                       }
                     }
                   }
