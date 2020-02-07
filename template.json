@@ -222,7 +222,7 @@
 		"parameters": [
           {
             "name": "folders",
-            "in": "body",
+            "in": "query",
 			"required": true,
             "x-ntx-dynamic-values": {
               "operationId": "GetFolderContents",
