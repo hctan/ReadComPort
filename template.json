@@ -1,0 +1,913 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "One Drive For Business",
+    "version": "1.0.0"
+  },
+  "x-ntx-contract-id": "a07668c3-45d7-46b4-8d4f-c26a160e0e7c",
+  "host": "79bb0718.ngrok.io",
+  "basePath": "/api",
+  "schemes": [
+    "https"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "Oauth2": [
+        "MyFiles.Read",
+        "MyFiles.Write"
+      ]
+    }
+  ],
+  "paths": {
+    "/validate-connection": {
+      "get": {
+        "operationId": "ValidateConnection",
+        "x-ntx-visibility": "internal",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        }
+      }
+    },
+    "/events/new-file": {
+      "get": {
+        "summary": "Microsoft OneDrive for Business - New file",
+        "operationId": "AddNewFileEvent",
+        "x-ntx-trigger": {
+          "eventType": "batched",
+          "expiryDays": 2
+        },
+        "x-ntx-post-processor": "https://79bb0718.ngrok.io/api/postprocessor",
+        "x-ntx-notification-content": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "title": "Name",
+                "type": "string",
+                "description": "Name",
+                "x-ntx-summary": "Name"
+              },
+              "fileId": {
+                "title": "File ID",
+                "type": "string",
+                "description": "File ID",
+                "x-ntx-summary": "File ID"
+              },
+              "path": {
+                "title": "Path",
+                "type": "string",
+                "description": "Path",
+                "x-ntx-summary": "Path"
+              },
+              "createdDate": {
+                "title": "Created date",
+                "type": "string",
+                "description": "Created date",
+                "x-ntx-summary": "Created date"
+              },
+              "createdByEmail": {
+                "title": "Created by (email)",
+                "type": "string",
+                "description": "Created by (email)",
+                "x-ntx-summary": "Created by (email)"
+              },
+              "createdByDisplayName": {
+                "title": "Created by (display name)",
+                "type": "string",
+                "description": "Created by (display name)",
+                "x-ntx-summary": "Created by (display name)"
+              },
+              "size": {
+                "title": "Size (bytes)",
+                "type": "number",
+                "description": "Size (bytes)",
+                "x-ntx-summary": "Size (bytes)"
+              }
+            }
+          }
+        },
+        "description": "Microsoft OneDrive for Business - New file",
+        "consumes": [],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "itemId",
+            "type": "string",
+            "description": "Path",
+            "x-ntx-summary": "Path",
+            "required": true,
+            "x-ntx-dynamic-values": {
+              "operationId": "GetFolderContents",
+              "value-path": "id",
+              "value-title": "name"
+            }
+          },
+          {
+            "name": "callbackUrl",
+            "in": "query",
+            "description": "Callback URL",
+            "required": true,
+            "x-ntx-summary": "Callback URL",
+            "type": "string",
+            "x-ntx-visibility": "internal",
+            "default": "{{x-ntx-event-callback-url}}"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/events/new-folder": {
+      "get": {
+        "summary": "Microsoft OneDrive for Business - New folder",
+        "operationId": "AddNewFolderEvent",
+        "x-ntx-trigger": {
+          "eventType": "batched",
+          "expiryDays": 2
+        },
+        "x-ntx-post-processor": "https://79bb0718.ngrok.io/api/postprocessor",
+        "x-ntx-notification-content": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "title": "Name",
+                "type": "string",
+                "description": "Name",
+                "x-ntx-summary": "Name"
+              },
+              "folderId": {
+                "title": "Folder ID",
+                "type": "string",
+                "description": "Folder ID",
+                "x-ntx-summary": "Folder ID"
+              },
+              "path": {
+                "title": "Path",
+                "type": "string",
+                "description": "Path",
+                "x-ntx-summary": "Path"
+              },
+              "createdDate": {
+                "title": "Created date",
+                "type": "string",
+                "description": "Created date",
+                "x-ntx-summary": "Created date"
+              },
+              "createdByEmail": {
+                "title": "Created by (email)",
+                "type": "string",
+                "description": "Created by (email)",
+                "x-ntx-summary": "Created by (email)"
+              },
+              "createdByDisplayName": {
+                "title": "Created by (display name)",
+                "type": "string",
+                "description": "Created by (display name)",
+                "x-ntx-summary": "Created by (display name)"
+              }
+            }
+          }
+        },
+        "description": "Microsoft OneDrive for Business - New folder",
+        "consumes": [],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "itemId",
+            "type": "string",
+            "description": "Path",
+            "x-ntx-summary": "Path",
+            "required": true,
+            "x-ntx-dynamic-values": {
+              "operationId": "GetFolderContents",
+              "value-path": "id",
+              "value-title": "name"
+            }
+          },
+          {
+            "name": "callbackUrl",
+            "in": "query",
+            "description": "Callback URL",
+            "required": true,
+            "x-ntx-summary": "Callback URL",
+            "type": "string",
+            "x-ntx-visibility": "internal",
+            "default": "{{x-ntx-event-callback-url}}"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/folders": {
+      "post": {
+        "description": "Create a folder",
+        "summary": "Create a folder",
+        "operationId": "CreateFolder",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "folderName",
+                "destinationFolderId"
+              ],
+              "properties": {
+                "folderName": {
+                  "title": "Folder Name",
+                  "type": "string",
+                  "pattern": "^(?!_vti_)([^\\*\\:\\<\\>\\?\\/\\\\\\|]){1,260}(?<!_vti_)$",
+                  "description": "Folder Name",
+                  "x-ntx-summary": "Folder Name"
+                },
+                "destinationFolderId": {
+                  "title": "Path",
+                  "type": "string",
+                  "description": "Path",
+                  "x-ntx-summary": "Path",
+                  "x-ntx-dynamic-values": {
+                    "operationId": "GetFolderContents",
+                    "value-path": "id",
+                    "parameters": {
+                      "folderId": {
+                        "parameter": "data"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "folderId": {
+                  "title": "Store folder ID",
+                  "type": "string",
+                  "description": "Store folder ID",
+                  "x-ntx-summary": "Store folder ID"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "405": {
+            "description": "Method not allowed."
+          },
+          "500": {
+            "description": "Unexpected internal server error."
+          }
+        }
+      }
+    },
+    "/folders/{folderId}": {
+      "get": {
+        "x-ntx-visibility": "internal",
+        "description": "Get folder contents",
+        "summary": "Get folder contents",
+        "operationId": "GetFolderContents",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "folderId",
+            "type": "string",
+            "description": "Path",
+            "x-ntx-summary": "Path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "title": "id",
+                    "type": "string",
+                    "x-ntx-visibility": "internal"
+                  },
+                  "name": {
+                    "title": "Store file name",
+                    "type": "string",
+                    "description": "Store file name",
+                    "x-ntx-summary": "Store file name"
+                  },
+                  "path": {
+                    "title": "Store file path",
+                    "type": "string",
+                    "description": "Store file path",
+                    "x-ntx-summary": "Store file path"
+                  },
+                  "created": {
+                    "title": "Store created date",
+                    "type": "string",
+                    "description": "Store created date",
+                    "x-ntx-summary": "Store created date"
+                  },
+                  "modified": {
+                    "title": "Store last modified",
+                    "type": "string",
+                    "description": "Store last modified",
+                    "x-ntx-summary": "Store last modified"
+                  },
+                  "isFolder": {
+                    "title": "Is Folder",
+                    "type": "boolean",
+                    "description": "Is Folder",
+                    "x-ntx-summary": "Is Folder"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "405": {
+            "description": "Method not allowed."
+          },
+          "500": {
+            "description": "Unexpected internal server error."
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete a folder",
+        "summary": "Delete a folder",
+        "operationId": "DeleteFolder",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "folderId",
+            "type": "string",
+            "description": "Path",
+            "x-ntx-summary": "Path",
+            "required": true,
+            "x-ntx-dynamic-values": {
+              "operationId": "GetFolderContents",
+              "value-path": "id",
+              "value-title": "name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Invalid input data."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "405": {
+            "description": "Method not allowed."
+          },
+          "500": {
+            "description": "Unexpected internal server error."
+          }
+        }
+      }
+    },
+    "/folders/{folderId}/move": {
+      "post": {
+        "description": "Move a folder",
+        "summary": "Move a folder",
+        "operationId": "MoveFolder",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "folderId",
+            "type": "string",
+            "description": "Path",
+            "x-ntx-summary": "Path",
+            "required": true,
+            "x-ntx-dynamic-values": {
+              "operationId": "GetFolderContents",
+              "value-path": "id",
+              "value-title": "name"
+            }
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "destinationFolderId",
+                "overwrite"
+              ],
+              "properties": {
+                "destinationFolderId": {
+                  "title": "Path",
+                  "type": "string",
+                  "description": "Path",
+                  "x-ntx-summary": "Path",
+                  "x-ntx-dynamic-values": {
+                    "operationId": "GetFolderContents",
+                    "value-path": "id",
+                    "value-title": "name"
+                  }
+                },
+                "overwrite": {
+                  "title": "Overwrite folder",
+                  "type": "boolean",
+                  "description": "Overwrite folder",
+                  "x-ntx-summary": "Overwrite folder",
+                  "default": false
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Invalid input data."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "405": {
+            "description": "Method not allowed."
+          },
+          "500": {
+            "description": "Unexpected internal server error."
+          }
+        }
+      }
+    },
+    "/files": {
+      "post": {
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "description": "Store a file",
+        "summary": "Store a file",
+        "operationId": "StoreFile",
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "fileUpload",
+            "type": "file",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "destinationFolderId",
+            "type": "string",
+            "description": "Path",
+            "x-ntx-summary": "Path",
+            "required": true,
+            "x-ntx-dynamic-values": {
+              "operationId": "GetFolderContents",
+              "value-path": "id",
+              "value-title": "name"
+            }
+          },
+          {
+            "in": "query",
+            "name": "overwrite",
+            "type": "boolean",
+            "description": "Overwrite file",
+            "x-ntx-summary": "Overwrite file",
+            "required": true,
+            "default": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Invalid input data."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "405": {
+            "description": "Method not allowed."
+          },
+          "500": {
+            "description": "Unexpected internal server error."
+          }
+        }
+      }
+    },
+    "/files/{fileId}": {
+      "delete": {
+        "description": "Delete a file",
+        "summary": "Delete a file",
+        "operationId": "DeleteFile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fileId",
+            "type": "string",
+            "description": "Path",
+            "x-ntx-summary": "Path",
+            "required": true,
+            "x-ntx-dynamic-values": {
+              "operationId": "GetFolderContents",
+              "value-path": "id",
+              "value-title": "name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Invalid input data."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "405": {
+            "description": "Method not allowed."
+          },
+          "500": {
+            "description": "Unexpected internal server error."
+          }
+        }
+      },
+      "get": {
+        "description": "Get a file",
+        "summary": "Get a file",
+        "operationId": "GetFile",
+        "produces": [
+          "application/octet-stream"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fileId",
+            "type": "string",
+            "description": "Path",
+            "x-ntx-summary": "Path",
+            "required": true,
+            "x-ntx-dynamic-values": {
+              "operationId": "GetFolderContents",
+              "value-path": "id",
+              "value-title": "name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Invalid input data."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "405": {
+            "description": "Method not allowed."
+          },
+          "500": {
+            "description": "Unexpected internal server error."
+          }
+        }
+      }
+    },
+    "/files/{fileId}/copy": {
+      "post": {
+        "description": "Copy a file",
+        "summary": "Copy a file",
+        "operationId": "CopyFile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fileId",
+            "type": "string",
+            "description": "Path",
+            "x-ntx-summary": "Path",
+            "required": true,
+            "x-ntx-dynamic-values": {
+              "operationId": "GetFolderContents",
+              "value-path": "id",
+              "value-title": "name"
+            }
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "destinationFolderId",
+                "overwrite"
+              ],
+              "properties": {
+                "destinationFolderId": {
+                  "title": "Path",
+                  "type": "string",
+                  "description": "Path",
+                  "x-ntx-summary": "Path",
+                  "x-ntx-dynamic-values": {
+                    "operationId": "GetFolderContents",
+                    "value-path": "id",
+                    "value-title": "name"
+                  }
+                },
+                "overwrite": {
+                  "title": "Overwrite file",
+                  "type": "boolean",
+                  "description": "Overwrite file",
+                  "x-ntx-summary": "Overwrite file",
+                  "default": false
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Invalid input data."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "405": {
+            "description": "Method not allowed."
+          },
+          "500": {
+            "description": "Unexpected internal server error."
+          }
+        }
+      }
+    },
+    "/files/{fileId}/move": {
+      "post": {
+        "description": "Move a file",
+        "summary": "Move a file",
+        "operationId": "MoveFile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fileId",
+            "type": "string",
+            "description": "Path",
+            "x-ntx-summary": "Path",
+            "required": true,
+            "x-ntx-dynamic-values": {
+              "operationId": "GetFolderContents",
+              "value-path": "id",
+              "value-title": "name"
+            }
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "destinationFolderId",
+                "overwrite"
+              ],
+              "properties": {
+                "destinationFolderId": {
+                  "title": "Path",
+                  "type": "string",
+                  "description": "Path",
+                  "x-ntx-summary": "Path",
+                  "x-ntx-dynamic-values": {
+                    "operationId": "GetFolderContents",
+                    "value-path": "id",
+                    "value-title": "name"
+                  }
+                },
+                "overwrite": {
+                  "title": "Overwrite file",
+                  "type": "boolean",
+                  "description": "Overwrite file",
+                  "x-ntx-summary": "Overwrite file",
+                  "default": false
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Invalid input data."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "405": {
+            "description": "Method not allowed."
+          },
+          "500": {
+            "description": "Unexpected internal server error."
+          }
+        }
+      }
+    },
+    "/files/{fileId}/link": {
+      "get": {
+        "description": "Share file link",
+        "summary": "Share file link",
+        "operationId": "GetFileLink",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fileId",
+            "type": "string",
+            "description": "Path",
+            "x-ntx-summary": "Path",
+            "required": true,
+            "x-ntx-dynamic-values": {
+              "operationId": "GetFolderContents",
+              "value-path": "id",
+              "value-title": "name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "downloadLink": {
+                  "title": "Store download link",
+                  "type": "string",
+                  "description": "Store download link",
+                  "x-ntx-summary": "Store download link"
+                },
+                "viewLink": {
+                  "title": "Store view link",
+                  "type": "string",
+                  "description": "Store view link",
+                  "x-ntx-summary": "Store view link"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "405": {
+            "description": "Method not allowed."
+          },
+          "500": {
+            "description": "Unexpected internal server error."
+          }
+        }
+      }
+    },
+    "/files/{fileId}/metadata": {
+      "get": {
+        "description": "Get file metadata",
+        "summary": "Get file metadata",
+        "operationId": "GetFileMetadata",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fileId",
+            "type": "string",
+            "description": "Path",
+            "x-ntx-summary": "Path",
+            "required": true,
+            "x-ntx-dynamic-values": {
+              "operationId": "GetFolderContents",
+              "value-path": "id",
+              "value-title": "name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "title": "Store file name",
+                  "type": "string",
+                  "description": "Store file name",
+                  "x-ntx-summary": "Store file name"
+                },
+                "path": {
+                  "title": "Store file path",
+                  "type": "string",
+                  "description": "Store file path",
+                  "x-ntx-summary": "Store file path"
+                },
+                "created": {
+                  "title": "Store created date",
+                  "type": "string",
+                  "description": "Store created date",
+                  "x-ntx-summary": "Store created date"
+                },
+                "modified": {
+                  "title": "Store last modified",
+                  "type": "string",
+                  "description": "Store last modified",
+                  "x-ntx-summary": "Store last modified"
+                },
+                "size": {
+                  "title": "Store file size (bytes)",
+                  "type": "number",
+                  "description": "Store file size (bytes)",
+                  "x-ntx-summary": "Store file size (bytes)"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "405": {
+            "description": "Method not allowed."
+          },
+          "500": {
+            "description": "Unexpected internal server error."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+  },
+  "securityDefinitions": {
+    "Oauth2": {
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
+      "tokenUrl": "https://login.microsoftonline.com/common/oauth2/v2.0/token",
+      "type": "oauth2",
+      "description": "Oauth 2.0 authentication",
+      "flow": "accessCode",
+      "scopes": {
+        "MyFiles.Read": "Grants read permission to all of a user's OneDrive files.",
+        "MyFiles.Write": "Grants write permission to all of a user's OneDrive files."
+      },
+      "x-ntx-connection-validation": {
+        "operationId": "ValidateConnection"
+      },
+      "x-ntx-connection-properties": {
+        "type": "object",
+        "properties": {
+          "resource": {
+            "title": "OneDrive Tenant URL",
+            "type": "string",
+            "pattern": "^.*-my.sharepoint.com$"
+          }
+        }
+      }
+    }
+  }
+}
