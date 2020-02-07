@@ -246,11 +246,7 @@
                   "x-ntx-dynamic-values": {
                     "operationId": "GetFolderContents",
                     "value-path": "id",
-                    "parameters": {
-                      "folderId": {
-                        "parameter": "data"
-                      }
-                    }
+                    "value-title": "name"
                   }
                 }
               }
