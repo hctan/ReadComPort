@@ -219,39 +219,17 @@
         "description": "Create a folder",
         "summary": "Create a folder",
         "operationId": "CreateFolder",
-        "parameters": [
+		"parameters": [
           {
-            "name": "data",
+            "name": "folders",
             "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "folderName",
-                "destinationFolderId"
-              ],
-              "properties": {
-                "folderName": {
-                  "title": "Folder Name",
-                  "type": "string",
-                  "pattern": "^(?!_vti_)([^\\*\\:\\<\\>\\?\\/\\\\\\|]){1,260}(?<!_vti_)$",
-                  "description": "Folder Name",
-                  "x-ntx-summary": "Folder Name"
-                },
-                "destinationFolderId": {
-                  "title": "Path",
-                  "type": "string",
-                  "description": "Path",
-                  "x-ntx-summary": "Path",
-                  "x-ntx-dynamic-values": {
-                    "operationId": "GetFolderContents",
-                    "value-path": "id",
-                    "parameters": {
-                      "folderId": {
-                        "parameter": "data.destinationFolderId"
-                      }
-                    }
-                  }
+			"required": true,
+            "x-ntx-dynamic-values": {
+              "operationId": "GetFolderContents",
+              "value-path": "id",
+              "parameters": {
+                "folderId": {
+                  "parameter": "folders"
                 }
               }
             }
