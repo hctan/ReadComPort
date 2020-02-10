@@ -83,12 +83,8 @@
           {
             "name": "data",
             "in": "body",
-            "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "destinationFolderId"
-              ],
               "properties": {
                 "destinationFolderId": {
                   "title": "Path",
