@@ -104,7 +104,7 @@
 				  "description": "Path",
                   "x-ntx-summary": "Path",
 				  "x-ntx-dynamic-values": {
-                    "operationId": "GetFolderContents",
+                    "operationId": "getFolderContents",
                     "value-path": "id",
                     "value-title": "name"
                   }
