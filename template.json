@@ -5,7 +5,7 @@
     "version": "1.0.0"
   },
   "x-ntx-contract-id": "a07668c3-45d7-46b4-8d4f-c26a160e0e7c",
-  "host": "79bb0718.ngrok.io",
+  "host": "10a59acd.ngrok.io",
   "basePath": "/api",
   "schemes": [
     "https"
@@ -30,11 +30,6 @@
         "parameters": [
           {
             "name": "folderid",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "folderpath",
             "in": "header",
             "type": "string"
           }
@@ -66,33 +61,6 @@
               "value-path": "name",
               "parameters": {
                 "folderid": {
-                  "parameter": "folders"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/StoreFiletoFolder2": {
-      "post": {
-        "summary": "Store a file to a folder by folder path",
-        "operationId": "storeFile2",
-        "parameters": [
-          {
-            "name": "folders",
-            "in": "query",
-            "type": "string",
-            "x-ntx-dynamic-values": {
-              "operationId": "getFolderContents",
-              "value-path": "name",
-              "parameters": {
-                "folderpath": {
                   "parameter": "folders"
                 }
               }
