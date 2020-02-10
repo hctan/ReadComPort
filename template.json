@@ -87,17 +87,9 @@
             "schema": {
               "type": "object",
 			  "required": [
-                "folderName",
                 "destinationFolderId"
               ],
               "properties": {
-				"folderName": {
-                  "title": "Folder Name",
-                  "type": "string",
-                  "pattern": "^(?!_vti_)([^\\*\\:\\<\\>\\?\\/\\\\\\|]){1,260}(?<!_vti_)$",
-                  "description": "Folder Name",
-                  "x-ntx-summary": "Folder Name"
-                },
                 "destinationFolderId": {
 				  "title": "Path",
                   "type": "string",
@@ -106,7 +98,12 @@
 				  "x-ntx-dynamic-values": {
                     "operationId": "getFolderContents",
                     "value-path": "id",
-                    "value-title": "name"
+                    "value-title": "name",
+					"parameters": {
+						"folderid": {
+						  "parameter": "data"
+						}
+					  }
                   }
                 }
               }
