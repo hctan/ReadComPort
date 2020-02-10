@@ -101,7 +101,7 @@
                     "value-title": "name",
 					"parameters": {
 						"folderid": {
-						  "parameter": "data"
+						  "parameter": "destinationFolderId"
 						}
 					  }
                   }
