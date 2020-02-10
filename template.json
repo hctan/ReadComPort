@@ -58,7 +58,8 @@
             "type": "string",
             "x-ntx-dynamic-values": {
               "operationId": "getFolderContents",
-              "value-path": "name",
+              "value-path": "id",
+			  "value-title": "name",
               "parameters": {
                 "folderid": {
                   "parameter": "folders"
