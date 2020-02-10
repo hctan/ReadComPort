@@ -102,12 +102,7 @@
 				  "title": "Path",
                   "type": "string",
 				  "description": "Path",
-                  "x-ntx-summary": "Path",
-                  "x-ntx-dynamic-values": {
-                    "operationId": "GetFolderContents",
-                    "value-path": "id",
-                    "value-title": "name"					
-                  }
+                  "x-ntx-summary": "Path"
                 }
               }
             }
