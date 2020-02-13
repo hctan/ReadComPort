@@ -49,7 +49,7 @@
     },
     "/StoreFiletoFolder": {
       "post": {
-        "summary": "Store a file to a folder by folder id",
+        "summary": "Store a file to a folder by folder id using query",
         "operationId": "storeFile",
         "parameters": [
           {
@@ -75,6 +75,63 @@
         }
       }
     },
+    "/StoreFiletoFolder3": {
+      "post": {
+        "summary": "Store a file to a folder by folder id pass using header with boolean also",
+        "operationId": "storeFile3",
+        "parameters": [
+          {
+            "name": "folders",
+            "in": "header",
+            "type": "string",
+            "x-ntx-dynamic-values": {
+              "operationId": "getFolderContents",
+              "value-path": "id",
+			  "value-title": "name",
+              "parameters": {
+                "folderid": {
+                  "parameter": "folders"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/StoreFiletoFolder4": {
+      "post": {
+        "summary": "Store a file to a folder by folder id pass using path",
+        "operationId": "storeFile4",
+        "parameters": [
+          {
+            "name": "folders",
+            "in": "path",
+            "type": "string",
+			"required": true,
+            "x-ntx-dynamic-values": {
+              "operationId": "getFolderContents",
+              "value-path": "id",
+			  "value-title": "name",
+              "parameters": {
+                "folderid": {
+                  "parameter": "folders"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },	
 	"/StoreFiletoFolder2": {
       "post": {
         "summary": "Store a file to a folder by folder id2",
