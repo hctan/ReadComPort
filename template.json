@@ -134,7 +134,7 @@
     },	
 	"/StoreFiletoFolder2": {
       "post": {
-        "summary": "Store a file to a folder by folder id2",
+        "summary": "Store a file to a folder by folder id2 - doesn't work",
         "operationId": "storeFile2",
         "parameters": [
           {
