@@ -5,7 +5,7 @@
     "version": "1.0.0"
   },
   "x-ntx-contract-id": "a07668c3-45d7-46b4-8d4f-c26a160e0e7c",
-  "host": "b9129934.ngrok.io",
+  "host": "d6351210.ngrok.io",
   "basePath": "/api",
   "schemes": [
     "https"
@@ -94,7 +94,12 @@
                 }
               }
             }
-          }
+          },
+		  {
+			"name": "overwrite",
+			"in": "header",
+			"type": "boolean"
+		  }
         ],
         "responses": {
           "200": {
